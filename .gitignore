@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.egg-info/
+.env
+.venv/
+env/
+venv/
+test/
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# 系統
+.DS_Store
+Thumbs.db
+
+# Models / Large files
+*.safetensors
+*.ckpt
+*.bin
+*.pt
+*.pth
+
+# Logs / Cache
+*.log
+*.out
+*.tmp
+.cache/
