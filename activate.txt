@@ -1,6 +1,17 @@
+Windows
+
 #啟動後端
 uvicorn app.api.main:app --host 127.0.0.1 --port 8000 --reload
 
 #啟動前端
 streamlit run app.py --server.port 8501
+
+
+Mac
+
+#啟動後端
+poetry run uvicorn app.api.main:app --host 127.0.0.1 --port 8000 
+
+#啟動前端
+poetry run streamlit run app.py --server.port 8501
 
