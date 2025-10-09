@@ -16,7 +16,7 @@ app = FastAPI(title="SDXL + LoRA Agent (Diffusers)")
 def health():
     return {"status": "ok", "device": DEVICE, "dtype": str(DTYPE), "loaded_adapters": list(LOADED_ADAPTERS)}
 
-@app.post("/generate", response_model=GenerateResp)
+@app.post("/generate", response_model=GenerateResp)    #呼叫生成模型
 async def generate(req: GenerateReq):
     w,h = autosize_within_cap(req.width, req.height)
     # w = _round_to_multiple_of(req.width)
