@@ -90,3 +90,23 @@ async def img2img(req: Img2ImgReq):
         guidance_scale=req.guidance_scale,
         applied_loras=adapters
     )
+
+
+#coding style
+    #try except只能出現在route
+    #try except只能有一層
+    #create summary agent write in tools
+#把這東西包成docker,給賴瑞一鍵執行
+#learning systen design
+
+
+#mrc multi rag
+    #資料格式需嚴謹 
+    #rag vector -> Q -> image
+
+
+#github 雙重驗證
+
+
+#接下來先將 poetry 醬版本 把toml修好，再建環境
+#看gpt繼續建置，執行到4的 git checkout -b feat/xxx

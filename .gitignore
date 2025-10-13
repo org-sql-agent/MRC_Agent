@@ -10,6 +10,7 @@ __pycache__/
 env/
 venv/
 test/
+app/api/settings.py
 
 # Jupyter / IPython
 .ipynb_checkpoints/

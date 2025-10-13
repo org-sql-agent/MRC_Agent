@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  mrc-agent:
+    build: .
+    image: mrc-agent:latest
+    # runtime: nvidia
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    environment:
+      PYTHONUNBUFFERED: "1"
+      # 告訴 pipeline base 權重位置（容器內路徑）
+      BASE_CKPT: /models/Stable-diffusion/sd_xl_base_1.0.safetensors
+      # LoRA 目錄（容器內路徑，可選）
+      LORA_DIR: /models/Lora
+      # HF/Transformers 快取（容器內路徑）
+      HF_HOME: /cache/hf
+      TRANSFORMERS_CACHE: /cache/hf
+    volumes:
+      # 掛模型到容器 /models
+      - ./models:/models
+      # （選）HF 快取做成 named volume，避免每次重抓
+      - hf-cache:/cache/hf
+      # 若要邊改程式碼邊跑，才掛這行；要注意會覆蓋 image 內的 /app
+      - ./:/app
+    ports:
+      - "8000:8000"
+    command: ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  webui:
+    image: mrc-agent:latest         # 或 build: . 皆可
+    depends_on:
+      - mrc-agent
+    environment:
+      BACKEND_URL: "http://mrc-agent:8000"  # 用服務名連到後端
+    command: ["streamlit","run","app/webui/app.py","--server.port=8501","--server.address=0.0.0.0"]
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./:/app                  # 方便你改前端程式即時生效
+
+volumes:
+  hf-cache:
