@@ -9,10 +9,9 @@ pipe_kwargs = {"torch_dtype": DTYPE, "use_safetensors": True}
 if DISABLE_SAFETY:
     pipe_kwargs.update({"safety_checker": None, "requires_safety_checker": False})
 
-try:
-    pipe = StableDiffusionXLPipeline.from_single_file(BASE_CKPT, **pipe_kwargs)
-except Exception as e:
-    raise RuntimeError(f"載入 base 模型失敗: {e}")
+
+pipe = StableDiffusionXLPipeline.from_single_file(BASE_CKPT, **pipe_kwargs)
+
 
 # 取樣器設定：DPM++ 2M Karras 對應
 pipe.scheduler = DPMSolverMultistepScheduler.from_config(
@@ -25,10 +24,7 @@ pipe = pipe.to(DEVICE)
 # 省顯存與加速（可按需關閉）
 
 def _tune_pipe(p):
-    try:
-        p.enable_xformers_memory_efficient_attention()
-    except Exception:
-        pass
+    p.enable_xformers_memory_efficient_attention()
     p.enable_attention_slicing()
     p.enable_vae_slicing()
     return p

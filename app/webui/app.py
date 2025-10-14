@@ -8,7 +8,7 @@ import requests
 
 # ========= Streamlit UI =========
 st.set_page_config(page_title="SD + LoRA + OpenAI Orchestrator", layout="centered")
-st.title("🎨 SD(+LoRA) × OpenAI LLM Orchestrator")
+st.title("MRC Agent: Stable Diffusion + LoRA + OpenAI Orchestrator")
 st.caption("輸入文字，或同時上傳參考圖。LLM 自動選 txt2img / img2img，並下發正確參數。")
 
 with st.form("gen"):
@@ -75,19 +75,14 @@ if submitted:
         st.info("Dry run：未呼叫 SD 後端。")
         st.stop()
 
-    try:
-        if fn_name == "txt2img":
-            result = call_sd_txt2img(fn_args)
-        elif fn_name == "img2img":
-            result = call_sd_img2img(fn_args, uploaded_b64)
-        else:
-            raise ValueError(f"未知工具：{fn_name}")
-    except requests.HTTPError as e:
-        st.error(f"SD 後端錯誤：{e}\n{e.response.text if e.response is not None else ''}")
-        st.stop()
-    except Exception as e:
-        st.error(f"工具執行失敗：{e}")
-        st.stop()
+    
+    if fn_name == "txt2img":
+        result = call_sd_txt2img(fn_args)
+    elif fn_name == "img2img":
+        result = call_sd_img2img(fn_args, uploaded_b64)
+    else:
+        raise ValueError(f"未知工具：{fn_name}")
+    
 
     # 顯示生成圖片
     img_b64 = result["image_base64"].split(",", 1)[1]

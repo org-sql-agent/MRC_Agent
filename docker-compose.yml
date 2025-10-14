@@ -1,8 +1,9 @@
-version: '3.8'
 services:
   mrc-agent:
-    build: .
-    image: mrc-agent:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: mrc-agent:gpu
     # runtime: nvidia
     # deploy:
     #   resources:
@@ -11,8 +12,9 @@ services:
     #         - driver: nvidia
     #           count: all
     #           capabilities: [gpu]
+    container_name: mrc-agent
+    gpus: all
     environment:
-      PYTHONUNBUFFERED: "1"
       # 告訴 pipeline base 權重位置（容器內路徑）
       BASE_CKPT: /models/Stable-diffusion/sd_xl_base_1.0.safetensors
       # LoRA 目錄（容器內路徑，可選）
@@ -22,7 +24,7 @@ services:
       TRANSFORMERS_CACHE: /cache/hf
     volumes:
       # 掛模型到容器 /models
-      - ./models:/models
+      - ${MODELS_DIR}:/models
       # （選）HF 快取做成 named volume，避免每次重抓
       - hf-cache:/cache/hf
       # 若要邊改程式碼邊跑，才掛這行；要注意會覆蓋 image 內的 /app
@@ -32,7 +34,8 @@ services:
     command: ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
   webui:
-    image: mrc-agent:latest         # 或 build: . 皆可
+    image: mrc-agent:gpu         # 或 build: . 皆可
+    container_name: mrc-webui
     depends_on:
       - mrc-agent
     environment:

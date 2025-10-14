@@ -13,61 +13,41 @@ def _adapter_name_from_path(p: str) -> str:
     return os.path.splitext(os.path.basename(p))[0]
 
 def _ensure_loras_loaded(loras: List[LoRAItem]) -> List[str]:
+    """載入指定的 LoRA 權重並套用到 SDXL 管線"""
     adapter_names, weights = [], []
-    
+
     for l in loras:
         name = l.name or _adapter_name_from_path(l.path)
         if name not in LOADED_ADAPTERS:
             p = l.path
-            try:
-                # 1) 路徑存在嗎？
-                if not os.path.exists(p):
-                    raise FileNotFoundError(f"LoRA 檔案/資料夾不存在: {p}")
 
-                # 2) 單檔 vs 資料夾：優先判斷「單一 .safetensors 檔」
-                if os.path.isfile(p):
-                    dir_path = os.path.dirname(p) or "."
-                    fname = os.path.basename(p)
+            # 1) 確認檔案或資料夾存在
+            if not os.path.exists(p):
+                raise FileNotFoundError(f"LoRA 檔案/資料夾不存在: {p}")
 
-                    # 嘗試 A：新式 API：資料夾 + weight_name=檔名
-                    try:
-                        pipe.load_lora_weights(dir_path, weight_name=fname, adapter_name=name)
-                    except Exception as e_a:
-                        # 嘗試 B：直接給單檔路徑（部分 diffusers 版本可用）
-                        try:
-                            pipe.load_lora_weights(p, adapter_name=name)
-                        except Exception as e_b:
-                            raise RuntimeError(
-                                f"LoRA 單檔載入失敗。\n"
-                                f"- 方法A(dir+weight_name={fname})錯誤：{e_a}\n"
-                                f"- 方法B(直接單檔)錯誤：{e_b}"
-                            )
-                else:
-                    # 3) 資料夾（或 repo）模式：讓 diffusers 自行尋找預設檔名
-                    pipe.load_lora_weights(p, adapter_name=name)
+            # 2) 單檔 vs 資料夾
+            if os.path.isfile(p):
+                dir_path = os.path.dirname(p) or "."
+                fname = os.path.basename(p)
 
-                LOADED_ADAPTERS.add(name)
+                # 嘗試新式 API
+                pipe.load_lora_weights(dir_path, weight_name=fname, adapter_name=name)
+            else:
+                # 資料夾模式
+                pipe.load_lora_weights(p, adapter_name=name)
 
-            except Exception as e:
-                # 轉成 400，讓客戶端能看到可讀錯誤，而不是只有 500
-                raise HTTPException(status_code=400, detail=f"LoRA 載入失敗：{p} -> {e}")  # 參考伺服器端結構:contentReference[oaicite:4]{index=4}
+            LOADED_ADAPTERS.add(name)
 
         adapter_names.append(name)
         weights.append(l.weight)
 
+    # 同步 adapter 權重
     if adapter_names:
-        # 同步到 txt2img 與 img2img 兩條管線
         pipe.set_adapters(adapter_names, adapter_weights=weights)
-        try:
-            pipe_i2i.set_adapters(adapter_names, adapter_weights=weights)
-        except Exception:
-            pass
+        pipe_i2i.set_adapters(adapter_names, adapter_weights=weights)
     else:
-        try:
-            pipe.disable_lora()
-            pipe_i2i.disable_lora()
-        except Exception:
-            pass
+        pipe.disable_lora()
+        pipe_i2i.disable_lora()
 
     return adapter_names
 

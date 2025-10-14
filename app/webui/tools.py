@@ -21,14 +21,13 @@ def img_to_data_uri(file, mime: str = "image/png") -> str:
     else:
         raw = file.read()
     # 轉 PNG 保險（也可直接用原檔）
-    try:
-        img = Image.open(io.BytesIO(raw)).convert("RGB")
-        buf = io.BytesIO()
-        img.save(buf, format="PNG")
-        raw = buf.getvalue()
-        mime = "image/png"
-    except Exception:
-        pass
+    
+    img = Image.open(io.BytesIO(raw)).convert("RGB")
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    raw = buf.getvalue()
+    mime = "image/png"
+    
     return f"data:{mime};base64," + base64.b64encode(raw).decode("utf-8")
 
 def loras_from_names(items):
