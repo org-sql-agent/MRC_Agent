@@ -48,6 +48,6 @@ You should now see the **MRC Agent** interface.
 
 FastAPI backend :
 ```
-http://localhost:8000/health
+http://localhost:8000
 ```
 
