@@ -34,9 +34,9 @@ Base model download：https://huggingface.co/stabilityai/stable-diffusion-xl-bas
 Lora model download: https://drive.google.com/file/d/1HOCUoQK_VXKSeZFehhfM5-IqS9TOHx_-/view?usp=drive_link
 
 ### 4. Build and Run with Docker Compose
-ˋˋˋbash
+```bash
 docker compose up --build
-ˋˋˋ
+```
 
 After the service starts, open your browser and visit:
 ```
@@ -47,7 +47,7 @@ You should now see the **MRC Agent** interface.
 
 
 FastAPI backend :
-ˋˋˋ
+```
 http://localhost:8000/health
-ˋˋˋ
+```
 
