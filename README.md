@@ -21,7 +21,7 @@ MODELS_DIR=your model folder
 
 ### 3. Create model folder
 
-ˋˋˋpgsql
+ˋˋˋtext
 models/
 ├── Stable-diffusion/
 │   └── sd_xl_base_1.0.safetensors
