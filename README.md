@@ -22,11 +22,12 @@ MODELS_DIR=your model folder
 ### 3. Create model folder
 
 ```plaintext
-models/
-├── Stable-diffusion/
-│   └── sd_xl_base_1.0.safetensors
-└── Lora/
-    └── Moldy_SDXL_V0.safetensors
+MRC_Agent/
+└── models/
+    ├── Stable-diffusion/
+    │   └── sd_xl_base_1.0.safetensors
+    └── Lora/
+        └── Moldy_SDXL_V0.safetensors
 ```
 
 Base model download：https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/blob/main/sd_xl_base_1.0.safetensors
