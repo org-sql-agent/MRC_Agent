@@ -24,7 +24,7 @@ pipe = pipe.to(DEVICE)
 # 省顯存與加速（可按需關閉）
 
 def _tune_pipe(p):
-    p.enable_xformers_memory_efficient_attention()
+    #p.enable_xformers_memory_efficient_attention()
     p.enable_attention_slicing()
     p.enable_vae_slicing()
     return p

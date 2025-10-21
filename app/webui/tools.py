@@ -6,7 +6,7 @@ from openai_env import SD_API
 
 # 你允許 LLM 使用的 LoRA 名稱與路徑（只需在這裡維護）
 LORA_REGISTRY = {
-    "Moldy_SDXL_V0": r"/models/Lora/Moldy_SDXL_V0.safetensors",
+    "Moldy_SDXL_V0": r".\models\Lora\Moldy_SDXL_V0.safetensors",
     # "AnimeV2": r"D:\...\AnimeV2.safetensors",
 }
 
