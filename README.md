@@ -30,13 +30,19 @@ MRC_Agent/
         └── Moldy_SDXL_V0.safetensors
 ```
 
-Base model download：https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/blob/main/sd_xl_base_1.0.safetensors
+Base model download：https://drive.google.com/file/d/1JRowubDodm_H6rSr9pmIyTdOlOyBozsR/view?usp=drive_link
 
 Lora model download: https://drive.google.com/file/d/1HOCUoQK_VXKSeZFehhfM5-IqS9TOHx_-/view?usp=drive_link
 
-### 4. Build and Run with Docker Compose
+### 4. Run 
+
 ```bash
-docker compose up --build
+uvicorn app.api.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+```bash
+cd app/webui
+streamlit run app.py --server.port 8501
 ```
 
 After the service starts, open your browser and visit:
@@ -49,6 +55,6 @@ You should now see the **MRC Agent** interface.
 
 FastAPI backend :
 ```
-http://localhost:8000
+http://127.0.0.1:8000
 ```
 
