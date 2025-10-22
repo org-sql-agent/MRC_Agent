@@ -11,6 +11,18 @@ git clone https://github.com/org-sql-agent/MRC_Agent.git
 cd MRC_Agent
 ```
 
+### 2. build the venv in MRC_Agent
+```bash
+python3.10 -m venv .venv
+```
+```bash
+source .venv/bin/activate
+```
+```bash
+pip install -r requirements.txt
+```
+
+
 ### 2. Create a `.env` File
 Inside the project root, create a `.env` file with the following content:
 ```env
