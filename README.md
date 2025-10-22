@@ -27,7 +27,6 @@ pip install -r requirements.txt
 Inside the project root, create a `.env` file with the following content:
 ```env
 OPENAI_API_KEY=your_api_key_here
-MODELS_DIR=your model folder
 ```
 
 
