@@ -1,3 +1,4 @@
+--extra-index-url https://download.pytorch.org/whl/cu130
 accelerate==1.11.0
 altair==5.5.0
 annotated-types==0.7.0
