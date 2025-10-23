@@ -18,8 +18,12 @@ pipe.scheduler = DPMSolverMultistepScheduler.from_config(
     pipe.scheduler.config, use_karras_sigmas=True
 )
 
+
+
 # 移到裝置
 pipe = pipe.to(DEVICE)
+
+#pipeline.enable_freeu(s1=0.9, s2=0.2, b1=1.3, b2=1.4)
 
 # 省顯存與加速（可按需關閉）
 

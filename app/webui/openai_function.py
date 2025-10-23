@@ -17,7 +17,8 @@ SYSTEM_PROMPT = f"""
 6) 在生成"prompt"與"negative_prompt"時，你只能使用英文生成。
 7) 在生成"prompt"時，一定要提到有關"moldy"相關詞彙，有助於喚醒lora。
 8) 在生成"prompt"時，最後要加上"<Moldy_SDXL_V0>"，有助於喚醒lora。
-8) 你只能使用 JSON 格式回應工具呼叫（符合 OpenAI function calling 規範）。
+9) 在生成"prompt"時，不要超過70 tokens。
+10) 你只能使用 JSON 格式回應工具呼叫（符合 OpenAI function calling 規範）。
 """
 
 TOOLS = [

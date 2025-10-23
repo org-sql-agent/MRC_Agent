@@ -52,7 +52,7 @@ def call_sd_txt2img(args: dict) -> dict:
         "seed": args.get("seed", -1),
         "loras": loras_from_names(args.get("loras", [])),
     }
-    r = requests.post(f"{SD_API}/generate", json=payload, timeout=600)
+    r = requests.post(f"{SD_API}/generate", json=payload, timeout=800)
     r.raise_for_status()
     return r.json()
 
